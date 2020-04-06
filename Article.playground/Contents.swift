@@ -143,8 +143,7 @@ class Video: News {
 class Manager {
     
     var name: String?;
-    var managerVideo: [Video] = [];
-    var managerNews: [News] = [];
+    var manager: [News] = [];
     
     var newName: String {
         if let name = self.name {
@@ -157,56 +156,41 @@ class Manager {
         self.name = name;
     }
     
-    func insertVideo(video: Video) {
-        managerVideo.append(video);
-        print("Vido added successfully");
+    func insertArticle(article: News) {
+        manager.append(article);
+        print("Added successfully");
     }
     
-    func insertNews(news: News) {
-        managerNews.append(news);
-        print("News added successfully");
-    }
-    
-    func toStringVideo() {
-        for video in managerVideo {
-            print(video.toString());
+    func toStringArticle() {
+        for item in manager {
+            print(item.toString());
         }
     }
     
-    func toStringNews() {
-        for news in managerNews {
-            print(news.toString());
-        }
-    }
-    
-    func getNews(name: String) -> String {
-        for news in managerNews {
-            if news.newAuthor.newName == name {
-                return "\(news.toString())";
+    func getArticle(name: String) -> String {
+        for item in manager {
+            if item.newAuthor.newName == name {
+                return "\(item.toString())";
             }
         }
         return "Name not found";
     }
     
-    func getVideo(name: String) -> String {
-        for video in managerVideo {
-            if video.newAuthor.newName == name {
-                return "\(video.toString())";
+    func getCountArticle() -> String{
+        var countNews = 0;
+        var countVideo = 0;
+        for item in manager {
+            if item is Video {
+                countVideo += 1;
+            }else if item is News {
+                countNews += 1;
             }
         }
-        return "Name not found";
-    }
-    
-    func getCounManager() -> String {
-        return "There are \(managerNews.count) news and \(managerVideo.count) video";
+        return "There are \(countNews) news and \(countVideo) video";
     }
     
     func getLastElementNews() -> String {
-        return "Last element inserted is \(managerNews[managerNews.endIndex - 1].toString())";
-    }
-    
-    func getLastElementVideo() -> String {
-        return "Last element inserted is \n\(managerVideo[managerVideo.endIndex - 1].toString())";
+        return "Last element inserted is \(manager[manager.endIndex - 1].toString())";
     }
 }
 
@@ -225,36 +209,32 @@ var video1 = Video.init(url: "www.gabrielezagarella.it", duration: 5.2, title: "
 "*...Created manager object...*"
 var manager = Manager.init(name: "OLS");
 
-"*...Inserted news...*"
-manager.insertNews(news: news);
-manager.insertNews(news: news1);
+"*...Inserted article news...*"
+manager.insertArticle(article: news);
+manager.insertArticle(article: news1);
 print();
-"*...Show news...*"
-manager.toStringNews();
-print();
-
-"*...Inserted video...*"
-manager.insertVideo(video: video);
-manager.insertVideo(video: video1);
-print();
-"*...Show video...*"
-manager.toStringVideo();
+"*...Show articles...*"
+manager.toStringArticle();
 print();
 
-"*...Search news for name author...*"
-print(manager.getNews(name: "Gabriele"));
+"*...Inserted article video...*"
+manager.insertArticle(article: video);
+manager.insertArticle(article: video1);
 print();
-"*...Search video for name author...*"
-print(manager.getVideo(name: "Sergio"));
-print();
-
-"*...Get number elemnt into manager...*"
-print(manager.getCounManager());
+"*...Show article...*"
+manager.toStringArticle();
 print();
 
-"*...Get the last inserted news...*"
+"*...Search article for name author...*"
+print(manager.getArticle(name: "Gabriele"));
+print();
+"*...Search article for name author...*"
+print(manager.getArticle(name: "Sergio"));
+print();
+
+"*...Get number article into manager...*"
+print(manager.getCountArticle());
+print();
+
+"*...Get the last post..*"
 print(manager.getLastElementNews());
-print();
-
-"*...Get the last inserted video...*"
-print(manager.getLastElementVideo());
