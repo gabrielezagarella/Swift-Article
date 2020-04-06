@@ -27,7 +27,7 @@ gestore delle notizie. Il gestore delle notizie è in grado di:
 
 class Author {
     
-    var name: String?;
+    private var name: String?;
     private var surname: String?;
     private var andress: String?;
     
@@ -68,7 +68,7 @@ class News {
     private var title: String?;
     private var text: String?;
     private var publicationDate: String?;
-    var author: Author;
+    private var author: Author?;
     
     var newTitle: String {
         if let title = self.title {
@@ -84,18 +84,19 @@ class News {
            return self.newTxt
        }
     
-    var newpublicationDate: String {
+    var newPublicationDate: String {
         if let publicationDate = self.publicationDate {
             return publicationDate;
         }
-        return self.newpublicationDate
+        return self.newPublicationDate
     }
-
-    init(title: String, publicationDate: String, author: Author) {
-            self.title = title;
-            self.publicationDate = publicationDate;
-            self.author = author;
-          }
+    
+    var newAuthor: Author {
+        if let author = self.author {
+            return author;
+        }
+        return self.newAuthor
+    }
     
     init(title: String, text: String, publicationDate: String, author: Author) {
         self.title = title;
@@ -105,7 +106,7 @@ class News {
        }
     
     func toString() -> String {
-        return "News:\n\(author.toString()),\ntitle: \(self.newTitle), text: \(self.newTxt), publication date: \(self.newpublicationDate)";
+        return "News:\n\(newAuthor.toString()),\ntitle: \(self.newTitle), text: \(self.newTxt), publication date: \(self.newPublicationDate)";
     }
 }
 
@@ -118,7 +119,7 @@ class Video: News {
         if let url = self.url {
             return url;
         }
-        return self.newpublicationDate
+        return self.newUrl
     }
     
     var newDuration: Double {
@@ -128,14 +129,14 @@ class Video: News {
         return self.newDuration
     }
     
-    init(url: String, duration: Double, title: String, publicationDate: String, author: Author) {
+    init(url: String, duration: Double, title: String, text: String, publicationDate: String, author: Author) {
         self.url = url;
         self.duration = duration;
-        super.init(title: title, publicationDate: publicationDate, author: author)
+        super.init(title: title, text: text, publicationDate: publicationDate, author: author)
     }
     
     override func toString() -> String {
-        return "Video:\n\(author.toString()),\ntitle: \(self.newTitle), publication date: \(self.newpublicationDate), url: \(newUrl), duration: \(newDuration)";
+        return "Video:\n\(newAuthor.toString()),\ntitle: \(self.newTitle), text: \(self.newTxt), publication date: \(self.newPublicationDate), url: \(newUrl), duration: \(newDuration)";
     }
 }
 
@@ -180,7 +181,7 @@ class Manager {
     
     func getNews(name: String) -> String {
         for news in managerNews {
-            if news.author.name == name {
+            if news.newAuthor.newName == name {
                 return "\(news.toString())";
             }
         }
@@ -189,7 +190,7 @@ class Manager {
     
     func getVideo(name: String) -> String {
         for video in managerVideo {
-            if video.author.newName == name {
+            if video.newAuthor.newName == name {
                 return "\(video.toString())";
             }
         }
@@ -218,8 +219,8 @@ var news = News.init(title: "Inediti", text: "Nuovo album disponibile su tutti g
 var news1 = News.init(title: "La musica del silenzio", text: "Ascolta la voce del mare e segui il tuo destino", publicationDate: "2007", author: author);
 
 "*...Created video object...*"
-var video = Video.init(url: "www.sergiobambaren.it", duration: 3.2, title: "La musica del silenzio", publicationDate: "2007", author: author);
-var video1 = Video.init(url: "www.gabrielezagarella.it", duration: 5.2, title: "New Album", publicationDate: "2020", author: author1);
+var video = Video.init(url: "www.sergiobambaren.it", duration: 3.2, title: "La musica del silenzio", text: "Ascolta la voce del mare e segui il tuo destino",publicationDate: "2007", author: author);
+var video1 = Video.init(url: "www.gabrielezagarella.it", duration: 5.2, title: "New Album", text: "Nuovo album disponibile su tutti gli store", publicationDate: "2020", author: author1);
 
 "*...Created manager object...*"
 var manager = Manager.init(name: "OLS");
