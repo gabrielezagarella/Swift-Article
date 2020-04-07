@@ -142,8 +142,8 @@ class Video: News {
 
 class Manager {
     
-    var name: String?;
-    var manager: [News] = [];
+    private var name: String?;
+    private var manager: [News] = [];
     
     var newName: String {
         if let name = self.name {
@@ -168,17 +168,28 @@ class Manager {
     }
     
     func getArticle(name: String) -> String {
-        for item in manager {
-            if item.newAuthor.newName == name {
-                return "\(item.toString())";
+        var result: String = "";
+           for item in manager {
+               if item.newAuthor.newName == name {
+                    if let video = item as? Video {
+                        result += "\(video.toString())";
+                    }else {
+                        result += "\(item.toString())\n";
+                    }
+                }
             }
+            if result == "" {
+                result = "Name not found"
         }
-        return "Name not found";
-    }
+           return result;
+       }
     
     func getCountArticle() -> String{
         var countNews = 0;
         var countVideo = 0;
+        if manager.count == 0 {
+            return "No article presents";
+        }
         for item in manager {
             if item is Video {
                 countVideo += 1;
@@ -238,3 +249,4 @@ print();
 
 "*...Get the last post..*"
 print(manager.getLastElementNews());
+
